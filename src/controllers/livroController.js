@@ -15,10 +15,20 @@ exports.mostrarFormularioNovo = (req, res) => {
 
 exports.criarLivro = async (req, res) => {
   try {
-    await Livro.create(req.body);
+    // Limpa campos vazios e converte para null
+    const dados = {
+      titulo: req.body.titulo,
+      autor: req.body.autor,
+      editora: req.body.editora || null,
+      anoPublicacao: req.body.anoPublicacao || null,
+      isbn: req.body.isbn || null
+    };
+
+    await Livro.create(dados);
     res.redirect('/livros');
   } catch (error) {
-    res.status(500).send(error.message);
+    console.error('Erro ao criar livro:', error);
+    res.status(500).send(`Erro ao criar livro: ${error.message}`);
   }
 };
 
@@ -33,10 +43,20 @@ exports.mostrarFormularioEditar = async (req, res) => {
 
 exports.atualizarLivro = async (req, res) => {
   try {
-    await Livro.update(req.body, { where: { id: req.params.id } });
+    // Limpa campos vazios e converte para null
+    const dados = {
+      titulo: req.body.titulo,
+      autor: req.body.autor,
+      editora: req.body.editora || null,
+      anoPublicacao: req.body.anoPublicacao || null,
+      isbn: req.body.isbn || null
+    };
+
+    await Livro.update(dados, { where: { id: req.params.id } });
     res.redirect('/livros');
   } catch (error) {
-    res.status(500).send(error.message);
+    console.error('Erro ao atualizar livro:', error);
+    res.status(500).send(`Erro ao atualizar livro: ${error.message}`);
   }
 };
 

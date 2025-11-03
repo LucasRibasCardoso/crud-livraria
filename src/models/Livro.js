@@ -18,7 +18,9 @@ const Livro = sequelize.define('Livro', {
   },
   isbn: {
     type: DataTypes.STRING,
-    unique: true
+    unique: true,
+    allowNull: true,
+    defaultValue: null
   }
 }, {
   timestamps: true
